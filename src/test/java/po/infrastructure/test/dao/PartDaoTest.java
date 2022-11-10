@@ -1,4 +1,4 @@
-package po.infrastructure.test;
+package po.infrastructure.test.dao;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -7,6 +7,7 @@ import po.domain.dto.Part;
 import po.infrastructure.relational.config.DatabaseUtils;
 import po.infrastructure.relational.dao.PartDao;
 import po.infrastructure.relational.dao.PartDaoImpl;
+import po.infrastructure.test.PersistenceTestGroups;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
+@Test(groups = {PersistenceTestGroups.DAO})
 public class PartDaoTest {
 
     private PartDao partDao;
