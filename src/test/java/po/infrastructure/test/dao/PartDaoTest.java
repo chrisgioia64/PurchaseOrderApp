@@ -1,14 +1,17 @@
 package po.infrastructure.test.dao;
 
+import org.springframework.dao.DataAccessException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import po.domain.dto.Part;
+import po.infrastructure.relational.config.DatabaseProperties;
 import po.infrastructure.relational.config.DatabaseUtils;
 import po.infrastructure.relational.dao.PartDao;
 import po.infrastructure.relational.dao.PartDaoImpl;
 import po.infrastructure.test.PersistenceTestGroups;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,9 +26,12 @@ public class PartDaoTest {
 
     @BeforeClass
     public void setupClass() throws SQLException {
-        Connection connection = DatabaseUtils.createConnection(DatabaseUtils.unitProperties);
+//        Connection connection = DatabaseUtils.createConnection(DatabaseUtils.unitProperties);
+//        // For DAO tests, we set the auto commit to true
+//        connection.setAutoCommit(true);
+        DataSource dataSource = DatabaseUtils.createDataSource(DatabaseUtils.unitProperties);
 
-        partDao = new PartDaoImpl(connection);
+        partDao = new PartDaoImpl(dataSource);
         p1 = Part.builder().name("Keyboard").price(49.99).build();
         p2 = Part.builder().name("Toshiba Laptop").price(849.99).build();
         p3 = Part.builder().name("Earphones").price(30).build();
@@ -49,8 +55,12 @@ public class PartDaoTest {
         assertEquals(p, p1);
         assertEquals(id, p.getId());
 
-        p = partDao.getPart(2);
-        assertNull(p);
+        try {
+            p = partDao.getPart(2);
+            fail("should have thrown an exception");
+        } catch (DataAccessException ex) {
+
+        }
     }
 
     @Test

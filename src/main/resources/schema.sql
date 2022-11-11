@@ -22,8 +22,8 @@ CREATE TABLE po_line_item (
 );
 
 ALTER TABLE po_line_item
-	ADD FOREIGN KEY `p_id` (`part_id`) REFERENCES po_purchase_order(`id`);
+	ADD FOREIGN KEY `p_id` (`part_id`) REFERENCES po_purchase_order(`id`) ON DELETE CASCADE;
 
 ALTER TABLE po_line_item
-	ADD FOREIGN KEY `purchase_order_id` (`po_id`) REFERENCES po_part(`id`);
+	ADD FOREIGN KEY `purchase_order_id` (`po_id`) REFERENCES po_part(`id`) ON DELETE CASCADE;
 

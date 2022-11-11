@@ -1,7 +1,10 @@
 package po.infrastructure.relational.config;
 
+import lombok.Data;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -25,6 +28,16 @@ public class DatabaseUtils {
         Connection connection = DriverManager.getConnection(url, user, password);
         log.info("Connection successfully created for db url: " + url);
         return connection;
+    }
+
+    public static DataSource createDataSource(DatabaseProperties prop) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl(prop.getProperty(DatabaseProperties.URL));
+        dataSource.setUsername(prop.getProperty(DatabaseProperties.USER));
+        dataSource.setPassword(prop.getProperty(DatabaseProperties.PASSWORD));
+        log.info("Created datasource for db url: " + prop.getProperty(DatabaseProperties.URL));
+        return dataSource;
     }
 
 }

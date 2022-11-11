@@ -6,6 +6,7 @@ import lombok.*;
 @Builder
 public class Part {
 
+    @EqualsAndHashCode.Exclude
     private long id;
 
     @NonNull
