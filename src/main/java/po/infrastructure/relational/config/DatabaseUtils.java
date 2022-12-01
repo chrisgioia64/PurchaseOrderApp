@@ -3,6 +3,7 @@ package po.infrastructure.relational.config;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -31,11 +32,18 @@ public class DatabaseUtils {
     }
 
     public static DataSource createDataSource(DatabaseProperties prop) {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        // Wraps a single JDBC connection which is not closed after use
+        SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl(prop.getProperty(DatabaseProperties.URL));
         dataSource.setUsername(prop.getProperty(DatabaseProperties.USER));
         dataSource.setPassword(prop.getProperty(DatabaseProperties.PASSWORD));
+        try {
+            dataSource.getConnection().setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         log.info("Created datasource for db url: " + prop.getProperty(DatabaseProperties.URL));
         return dataSource;
     }

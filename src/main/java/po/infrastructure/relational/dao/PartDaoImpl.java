@@ -72,7 +72,6 @@ public class PartDaoImpl implements PartDao {
 
     @Override
     public void clearEntries() {
-//        String sql = String.format("TRUNCATE %s", TABLE_NAME);
         String sql = String.format("DELETE FROM %s", TABLE_NAME);
         template.update(sql);
         String sql2 = String.format("ALTER TABLE %s AUTO_INCREMENT = 1", TABLE_NAME);
