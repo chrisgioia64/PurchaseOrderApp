@@ -1,6 +1,7 @@
 package po.infrastructure.test.dao;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -146,6 +147,19 @@ public class PartDaoTest {
         Part newPart = partDao1.getPart(1);
         assertEquals(newPart.getName(), p1.getName());
         dataSource1.getConnection().commit();
+    }
+
+    @Test
+    public void test6() throws SQLException {
+        partDao1.addPart(p1.getName(), p1.getPrice());
+        dataSource1.getConnection().commit();
+
+        try {
+            Part nullPart = partDao1.getPart(5);
+            fail("should have thrown exception");
+        } catch (EmptyResultDataAccessException ex) {
+
+        }
     }
 
 }
