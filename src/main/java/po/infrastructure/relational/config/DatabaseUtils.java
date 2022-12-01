@@ -32,6 +32,14 @@ public class DatabaseUtils {
     }
 
     public static DataSource createDataSource(DatabaseProperties prop) {
+        return createDataSource(prop, false);
+    }
+
+    public static DataSource createDataSourceForDaoTesting(DatabaseProperties prop) {
+        return createDataSource(prop, true);
+    }
+
+    private static DataSource createDataSource(DatabaseProperties prop, boolean autocommit) {
 //        DriverManagerDataSource dataSource = new DriverManagerDataSource();
         // Wraps a single JDBC connection which is not closed after use
         SingleConnectionDataSource dataSource = new SingleConnectionDataSource();

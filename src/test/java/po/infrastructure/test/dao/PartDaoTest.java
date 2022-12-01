@@ -149,6 +149,10 @@ public class PartDaoTest {
         dataSource1.getConnection().commit();
     }
 
+    /**
+     * Try to access a row that doesn't exist
+     * @throws SQLException
+     */
     @Test
     public void test6() throws SQLException {
         partDao1.addPart(p1.getName(), p1.getPrice());
